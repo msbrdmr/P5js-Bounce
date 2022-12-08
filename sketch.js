@@ -27,7 +27,7 @@ function setup() {
 	background(0, 10, 40)
 	ball.push(new Ball(yoffset, yoffset, 50));
 	mousePos = createVector(0, 0);
-	button = createButton('Fullscreen');
+	button = createButton('Abdulkadir');
 	button.position(0, 0);
 	button.mousePressed(fullscreen);
 }
