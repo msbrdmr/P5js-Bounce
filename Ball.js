@@ -11,7 +11,7 @@ class Ball {
         stroke(0);
         strokeWeight(5);
         circle(this.pos.x, this.pos.y, this.rad)
-a
+
         this.v.add(this.gravity);
         this.pos.add(this.v);
 
