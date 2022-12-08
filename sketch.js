@@ -10,14 +10,15 @@ let element = document.querySelector("#container");
 
 // make the element go to full-screen mode
 function fullscreen() {
-	element.requestFullscreen()
-		.then(function () {
-			// element has entered fullscreen mode successfully
-		})
-		.catch(function (error) {
-			// element could not enter fullscreen mode
-		});
+	var full_screen_element = document.fullscreenElement;
+
+	// If no element is in full-screen
+	if (full_screen_element !== null)
+		console.log('FullScreen mode is activated');
+	else
+		console.log('FullScreen mode is not activated');
 }
+
 
 
 
