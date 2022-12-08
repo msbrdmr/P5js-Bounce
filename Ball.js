@@ -6,7 +6,6 @@ class Ball {
         this.v = createVector(5, 0);
         this.gravity = createVector(0, 0.1);
     }
-
     physics() {
         fill(255, 255, 0);
         stroke(0);
@@ -34,11 +33,7 @@ class Ball {
             this.pos.x = this.rad / 2
         }
     }
-
     thrust(vector) {
         this.v.add(vector);
     }
-
-
-
 }

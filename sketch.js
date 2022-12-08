@@ -4,14 +4,33 @@ let multiplier = 15;
 let ball = [];
 let mousePos;
 let forceDir;
+let button;
+
+let element = document.querySelector("#container");
+
+// make the element go to full-screen mode
+function fullscreen() {
+	element.requestFullscreen()
+		.then(function () {
+			// element has entered fullscreen mode successfully
+		})
+		.catch(function (error) {
+			// element could not enter fullscreen mode
+		});
+}
+
+
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(0, 10, 40)
 	ball.push(new Ball(yoffset, yoffset, 50));
 	mousePos = createVector(0, 0);
-
+	button = createButton('Fullscreen');
+	button.position(0, 0);
+	button.mousePressed(fullscreen);
 }
+
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 }
@@ -25,9 +44,6 @@ function draw() {
 	}
 
 }
-
-
-
 function keyPressed() {
 	let vector = createVector(0, -3);
 	if (ball.length != 0) {
@@ -36,15 +52,10 @@ function keyPressed() {
 		});
 	}
 }
-
-
-
 function mousePressed() {
 	let firstPos = createVector(mouseX, mouseY);
 	mousePos.add(firstPos)
 }
-
-
 function mouseReleased() {
 	let first = [width / mousePos.x, height / mousePos.y]
 	mousePos.x = 0;
