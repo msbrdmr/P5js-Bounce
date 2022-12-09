@@ -1,13 +1,14 @@
 class Ball {
-    constructor(x, y, rad) {
+    constructor(x, y, rad, Vx, Vy) {
         this.rad = rad;
         this.b = 0.8;
         this.pos = createVector(x, y);
-        this.v = createVector(5, 0);
+        this.v = createVector(Vx, Vy);
         this.gravity = createVector(0, 0.5);
+        this.color = color(123, 255, 31);
     }
     physics() {
-        fill(255, 255, 0);
+        fill(this.color);
         stroke(0);
         strokeWeight(5);
         circle(this.pos.x, this.pos.y, this.rad)
@@ -19,7 +20,7 @@ class Ball {
             this.pos.y = height - this.rad / 2
             this.v.x *= +this.b;
             this.v.y *= - this.b;
-        } else if (this.pos.y + this.rad / 2 < this.rad / 2) {
+        } else if (this.pos.y < this.rad / 2) {
             this.pos.y = this.rad / 2
             this.v.y *= - 1;
         }
@@ -35,5 +36,10 @@ class Ball {
     }
     thrust(vector) {
         this.v.add(vector);
+    }
+
+    collision(other) {
+        if (Math.sqrt(sq(this.pos.y - other.pos.y) + sq(this.pos.x - other.pos.x)) < this.rad + other.rad)
+            fill(19, 243, 228);
     }
 }

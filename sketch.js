@@ -1,10 +1,12 @@
 let yoffset = 100;
 let random = Math.ceil(Math.random() * 9) * (Math.round(Math.random()) ? 1 : -1) / 10;
-let multiplier = 15;
+let multiplier = 50;
 let ball = [];
 let mousePos;
 let forceDir;
 let button;
+let firstPos;
+let secondPos;
 
 let element = document.querySelector("#container");
 
@@ -26,6 +28,7 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(0, 10, 40)
 	ball.push(new Ball(yoffset, yoffset, 50));
+	ball.push(new Ball(yoffset + 200, yoffset, 50));
 	mousePos = createVector(0, 0);
 	button = createButton('Fullscreen');
 	button.position(0, 0);
@@ -37,41 +40,49 @@ function windowResized() {
 }
 function draw() {
 	frameRate(144);
+	// console.log(windowWidth,windowHeight);
+
 	background(0, 10, 40)
 	if (ball.length != 0) {
-		ball.forEach(element => {
-			element.physics();
+		ball.forEach(element1 => {
+			element1.physics();
 		});
 	}
 
 }
 function keyPressed() {
-	let vector = createVector(0, -3);
-	if (ball.length != 0) {
-		ball.forEach(element => {
-			element.thrust(vector);
-		});
+	if (keyCode == CONTROL) {
+		ball.push(new Ball(mouseX, mouseY, 50, width / mouseX, height / mouseY));
 	}
+
 }
+
 function mousePressed() {
-	let firstPos = createVector(mouseX, mouseY);
+	firstPos = createVector(mouseX, mouseY);
 	mousePos.add(firstPos)
 }
 function mouseReleased() {
-	let first = [width / mousePos.x, height / mousePos.y]
-	mousePos.x = 0;
-	mousePos.y = 0;
-	let second = [width / mouseX, height / mouseY]
-	console.log("first: " + first + "\n" + "second: " + second);
+	secondPos = createVector(mouseX, mouseY);
+	let first = [firstPos.x, firstPos.y]
+	let second = [secondPos.x, secondPos.y]
+	console.log("firstPos: " + first + "\n" + "second: " + second);
 	let diffArray = new Array(2);
-	diffArray[0] = first[0] - second[0];
-	diffArray[1] = first[1] - second[1];
+	diffArray[0] = (secondPos.x - firstPos.x) / windowWidth;
+	diffArray[1] = (secondPos.y - firstPos.y) / windowHeight;
+
 	console.log("\ndiff: " + diffArray);
 	forceDir = createVector(multiplier * diffArray[0], multiplier * diffArray[1])
 
 	if (ball.length != 0) {
 		ball.forEach(element => {
-			element.thrust(forceDir);
+
+			if (firstPos.x < element.pos.x + element.rad / 2 &&
+				firstPos.x > element.pos.x - element.rad / 2 &&
+				firstPos.y < element.pos.y + element.rad / 2 &&
+				firstPos.y > element.pos.y - element.rad / 2) {
+
+				element.thrust(forceDir);
+			}
 		});
 	}
 }
