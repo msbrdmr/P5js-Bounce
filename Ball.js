@@ -5,8 +5,9 @@ class Ball {
         this.m = m;
         this.pos = new Vector(x, y);
         this.v = new Vector(Vx, Vy);
-        this.gravity = new Vector(0, 0.5);
+        this.gravity = new Vector(0, 0.8);
         this.color = color("#1dd35e");
+        this.id = ball.length+1;
     }
     physics() {
         fill(this.color);
@@ -42,13 +43,17 @@ class Ball {
     collision(other) {
 
         let distance = other.pos.sub(this.pos);
-        if (distance.mag() < this.R / 2 + other.R / 2) {
+        let fOverlap = 0.5 * (distance.mag() - this.R / 2 - other.R / 2);
+        //Displace current ball
+        this.pos.x -= fOverlap * (this.pos.x - other.pos.x) / distance.mag();
+        this.pos.y -= fOverlap * (this.pos.y - other.pos.y) / distance.mag();
+        //Displace target ball
+        other.pos.x += fOverlap * (this.pos.x - other.pos.x) / distance.mag();
+        other.pos.y += fOverlap * (this.pos.y - other.pos.y) / distance.mag();
 
-            this.pos = other.pos.sub(distance)
-            other.pos = this.pos.add(distance)
-            this.v = this.v.add(distance.mult(-1).mult(dive));
-            other.v = other.v.add(distance.mult(dive));
-        }
+        this.v = this.v.add(distance.mult(-1).mult(dive));
+        other.v = other.v.add(distance.mult(dive));
+
     }
 }
 

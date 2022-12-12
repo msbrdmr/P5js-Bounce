@@ -5,15 +5,11 @@ class Vector {
     }
 
     add(v) {
-        // this.x += v.x;
-        // this.y += v.y;
         return new Vector(this.x + v.x, this.y + v.y)
 
     }
 
     sub(v) {
-        // this.x -= v.x;
-        // this.y -= v.y;
         return new Vector(this.x - v.x, this.y - v.y)
     }
 
@@ -22,15 +18,12 @@ class Vector {
     }
 
     mult(n) {
-        // this.x *= n;
-        // this.y *= n;
         return new Vector(this.x * n, this.y * n)
     }
 
     normal() {
         return new Vector(-this.y, this.x).unit();
     }
-
     unit() {
         if (this.mag() === 0) {
             return new Vector(0, 0);

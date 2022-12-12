@@ -5,6 +5,7 @@ let ball = [];
 let mousePos;
 let forceDir;
 let button;
+let button2;
 let firstPos;
 let secondPos;
 let dive;
@@ -21,20 +22,37 @@ function fullscreen() {
 		console.log('FullScreen mode is not activated');
 }
 
+function generateBall() {
+
+	let ran = Math.random();
+	console.log(ran);
+	ball.push(new Ball(1, ran*windowWidth, mouseY, 100, 0, 0));
+
+
+}
+
 
 
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(0, 10, 40)
-	ball.push(new Ball(1, yoffset, yoffset, 100, 0, 0));
 	ball.push(new Ball(1, yoffset + 200, yoffset, 100, 0, 0));
-	ball.push(new Ball(1, yoffset + 400, yoffset, 100, 0, 0));
 	mousePos = new Vector(0, 0);
 	button = createButton('Fullscreen');
 	button.position(0, 0);
 	button.mousePressed(fullscreen);
+	button2 = createButton('GenerateBall');
+	button2.position(100, 0);
+	button2.mousePressed(generateBall);
+
+
 	dive = 0.01;
+
+	for (let i = 0; i < ball.length; i++) {
+		console.log(ball[i].id);
+
+	}
 }
 
 function windowResized() {
@@ -47,19 +65,23 @@ function draw() {
 		ball.forEach(eachball => {
 			eachball.physics();
 			for (let other of ball) {
-				if (other == eachball) continue;
-				eachball.collision(other);
+				if (eachball.id == other.id) continue;
+				if (DoCirclesOverlap(eachball.pos.x, eachball.pos.y, eachball.R, other.pos.x, other.pos.y, other.R)) {
+					console.log("coll");
+					eachball.collision(other);
+
+
+				}
 			}
 		});
 	}
 
 }
-function keyPressed() {
-	if (keyCode == CONTROL) {
-		ball.push(new Ball(1, mouseX, mouseY, 100, 0, 0));
-	}
 
+function DoCirclesOverlap(x1, y1, r1, x2, y2, r2) {
+	return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2) <= r1 / 2 + r2 / 2
 }
+
 
 function mousePressed() {
 	firstPos = new Vector(mouseX, mouseY);
@@ -84,7 +106,7 @@ function mouseReleased() {
 				firstPos.x > element.pos.x - element.R / 2 &&
 				firstPos.y < element.pos.y + element.R / 2 &&
 				firstPos.y > element.pos.y - element.R / 2) {
-					
+
 				element.thrust(forceDir);
 			}
 		});
