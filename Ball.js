@@ -1,13 +1,13 @@
 class Ball {
     constructor(m, x, y, R, Vx, Vy) {
         this.R = R;
-        this.b = 0.8;
+        this.b = 0.7;
         this.m = m;
         this.pos = new Vector(x, y);
         this.v = new Vector(Vx, Vy);
-        this.gravity = new Vector(0, 0.8);
-        this.color = color("#1dd35e");
-        this.id = ball.length+1;
+        this.gravity = new Vector(0, 0.2);
+        this.color = color("#44f4f5");
+        this.id = ball.length + 1;
     }
     physics() {
         fill(this.color);
@@ -51,8 +51,8 @@ class Ball {
         other.pos.x += fOverlap * (this.pos.x - other.pos.x) / distance.mag();
         other.pos.y += fOverlap * (this.pos.y - other.pos.y) / distance.mag();
 
-        this.v = this.v.add(distance.mult(-1).mult(dive));
-        other.v = other.v.add(distance.mult(dive));
+        this.v = this.v.add(distance.mult(-1).mult(dive ));
+        other.v = other.v.add(distance.mult(dive ));
 
     }
 }
