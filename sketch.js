@@ -34,6 +34,8 @@ function setup() {
 	resetGravityButton.position(227, 0);
 	resetGravityButton.mousePressed(resetGravity);
 
+	
+
 	checkBox = createCheckbox()
 	checkBox.changed(checkEvent);
 
@@ -84,7 +86,6 @@ function checkEvent() {
 		controlMode = true;
 	} else {
 		controlMode = false;
-
 	}
 }
 
